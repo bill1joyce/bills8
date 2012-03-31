@@ -1,0 +1,49 @@
+jQuery.fn.getCheckboxVal = function(){
+    var vals = [];
+    var i = 0;
+    this.each(function(){
+        vals[i++] = jQuery(this).val();
+    });
+    return vals;
+}
+
+var checkeditems = $("input:checkbox:checked").getCheckboxVal()
+var checkeditems = $("input[name='fieldname']:checked").getCheckboxVal()
+
+ $("#log2").text('Checked Items:  '+checkeditems);
+
+//would return an array like:
+// ['val1', 'val2', 'val3']
+
+var values = $('input:checkbox:checked.group1').map(function () {
+  return this.value;
+}).get(); // ["18", "55", "10"]
+
+var values = $('input:checkbox:checked.checkbox1').map(function () {
+  return this.value;
+}).get(); // ["18", "55", "10"]
+
+<label for="checkbox">Select Two Colors</label><br />
+<input type="checkbox" class="checkbox1" name="option1" value="Red"> Red
+<input type="checkbox" class="checkbox1" name="option2" value="Yellow" > Yellow 
+<input type="checkbox" class="checkbox1" name="option3" value="Blue"> Blue
+<input type="checkbox" class="checkbox1" name="option4" value="Green"> Green<br>
+<label id="checkboxMsg"></label> 
+
+<input type="checkbox" id="ans" value="1" />
+$("#ans option:selected").val()
+
+$("input[type=checkbox][checked]").each( 
+    function() { 
+       // Insert code here 
+    } 
+);
+
+function countChecked() {
+    return $("input.checkbox:checked").length;
+}
+
+$(".checkbox").live('click', function () {
+    if (countChecked() == 0 ) {
+		
+		

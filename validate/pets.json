@@ -1,0 +1,11 @@
+{
+  "Lucy": { "animal": "Cat",
+            "breed": "American Shorthair",
+            "note": "She raised me"},
+  "Homer": { "animal": "Cat",
+            "breed": "unknown",
+            "note": "Named after a world-famous bassoonist"},
+  "Muchacha": { "animal": "Dog",
+           "breed": "mutt",
+           "note": "One of the ugliest dogs I've ever met"}
+}

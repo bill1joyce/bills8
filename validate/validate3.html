@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>validate</title>
+
+<!--	
+<link rel="stylesheet" href="lotsa.css">
+-->
+
+<style type="text/css">
+
+body {
+
+  align:center;
+	width:800;
+	background:blue;
+	margin:100px;
+}
+div.main {
+  text-align:left;
+	width:500;
+	background:white;
+	padding:50px;
+}
+
+.red {
+	color:red;
+}
+.needsfilled {
+	background:red;
+	color:white;
+}
+input {
+	height: 20px;
+	color: #333333;
+	border:#000066 1px solid; 
+	margin:0px; 
+	margin-bottom: 1px;
+}
+
+input:hover {
+	border: #000066 1px solid;
+	background:#EEEEFF;
+	color: #660000;
+}
+input:focus{
+	background-color: lightyellow;
+}
+
+		</style>
+		
+
+		
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+
+
+$(document).ready(function(){
+
+	 var fieldname = '';
+	 var fieldid  = '';
+	 var dataType = '';
+	 var fielderrormessage=  '';
+	 var errormessage=  '';
+	 var ckItem ='';  
+	 var ckItemValue ='';  //   	 ckitem.val();
+	 var regexName =/^[a-zA-Z0-9 '.]*$/ ; 
+	 var regexEmail =/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/   ;
+	 var regexDate =/^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/ ; 
+
+//////////////////////////////////////////////////////////////////////////////////////	 
+
+ var vt2 = {
+                            "name": [   
+                                    { 'info':{ "fieldname" : 'Name',  "fieldid"    : 'name',  "dataType"    : 'words' ,  "errormessage" : ''}},
+                                     { 'required':{ "required" : 'yes',   "errormessage" : ': required field' }},
+                                     { 'regex':{ "regex"     : /^[a-zA-Z0-9 '.]*$/ ,   "errormessage" : ': format error' }},
+                                     {"cklength" :{ "cklength"    : '',   "minlength" : 1,   "maxlength" : 6,   "errormessage" : ': length error' }}
+                                      ],                              
+                            "email": [  
+                                     { 'info':{ "fieldname" : 'E-mail',  "fieldid"    : 'email',  "dataType"    : 'email' ,  "errormessage" : ''}},
+                                     { 'required':{ "required" : 'yes',   "errormessage" : ': required field' }},
+                                     { 'regex':{ "regex"     :  /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ ,   "errormessage" : ': format error' }},
+                                     {"cklength" :{ "cklength"    : '',   "minlength" : 1,   "maxlength" : 1,   "errormessage" : ': length error' } }	
+                                      ],                              
+                            "bdate": [  
+                                     { 'info':{ "fieldname" : 'Birthday',  "fieldid"    : 'bdate',  "dataType"    : 'date' ,  "errormessage" : ''}},
+                                     { 'required':{ "required" : '',   "errormessage" : ': required field' }},
+                                     { 'regex':{ "regex"     :  /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/ ,   "errormessage" : ': format error' }},
+                                     {"cklength" :{ "cklength"    : '',   "minlength" : 1,   "maxlength" : 1,   "errormessage" : ': length error '} }
+                                      ]    				
+                               }; // End validateThese		
+
+//////////////////////////////////////////////////////////////////////////////////////
+$("#theform").submit(function(event) {
+    event.preventDefault();
+$('.red').empty();
+$('#log').empty();
+$('#good').empty();
+    checkeach2();	 
+});
+
+//////////////////////////////////////////////////////////////////////////////////////
+var checkinfo = function (checkobject) {	
+//				alert('checkinfo');
+			$.each(checkobject, function(property, value) {   ///  each  checkobject
+		       $('#log').append ('---------3--checkinfo--'+property + "=" + value+'<br>' );
+					 if (property=='fieldname'){fieldname=value};
+					 if (property=='fieldid'){fieldid=value};
+					 if (property=='dataType'){dataType=value};
+					 if (property=='fielderrormessage'){fielderrormessage=value};
+	       ckItem = $('#'+fieldid);  					 
+	       ckItemValue =  ckItem.val(); 			 
+     })///  end  each   checkobject	
+//		 		  $('#log').append ('----ckinfo-----'+ "fieldname=" + fieldname+'<br>' );
+};  ///  end  function   checkobject	
+
+//////////////////////////////////////////////////////////////////////////////////////
+var checkrequired = function (checkobject) {	
+//				alert('checkrequired');
+			$.each(checkobject, function(property, value) {   ///  each  checkobject
+		       $('#log').append ('---------3--checkrequired--'+property + "=" + value+'<br>' );
+					 if (property=='required'){required=value};
+					 if (property=='errormessage'){errormessage=value};
+     })///  end  each   checkobject			 
+		 					 if (required !='' ){
+					     	     if (!ckItemValue){
+			                   fielderrormessage+='<br>'+fieldname + errormessage;
+//				                alert(fieldid +'---'+fielderrormessage);
+						         }					 
+					 };
+};
+//////////////////////////////////////////////////////////////////////////////////////
+var checkregex = function (checkobject) {	
+//				alert('checkregex );
+			$.each(checkobject, function(property, value) {   ///  each  checkobject
+		       $('#log').append ('---------3--checkregex--'+property + "=" + value+'<br>' );
+					 if (property=='regex'){regex =value};
+					 if (property=='errormessage'){errormessage=value};
+     })///  end  each   checkobject			 
+//				alert('checkregex '+ regex + '--ckitem.val--'+ckitem.val());
+				
+//					     	     if (ckItemValue && regex  ){										 
+										     if (!( regex.test(ckItemValue )))   {										
+			                      fielderrormessage+='<br>'+fieldname + errormessage;
+//				                   alert(fieldid +'---'+fielderrormessage);
+												}
+//						         }					 
+};
+//////////////////////////////////////////////////////////////////////////////////////
+var checklength = function (checkobject) {	
+//				alert('checklength );
+			$.each(checkobject, function(property, value) {   ///  each  checkobject
+		       $('#log').append ('---------3--checkregex--'+property + "=" + value+'<br>' );
+					 if (property=='cklength'){cklength =value};
+					 if (property=='minlength'){minlength =value};
+					 if (property=='maxlength'){maxlength =value};
+					 if (property=='errormessage'){errormessage=value};
+     })///  end  each   checkobject			 
+//				alert('checkregex '+ regex + '--ckitem.val--'+ckitem.val());
+//				  if (cklength !='' ){
+					     	     if (ckItemValue.length > maxlength    ||  ckItemValue.length < minlength    ){										 							
+			                      fielderrormessage+='<br>'+fieldname + errormessage;
+//				                   alert(fieldid +'---'+fielderrormessage);
+												}
+//						         }					 
+};
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+var checkeach2 = function () {	
+  $.each(vt2, function(i, object1) {  ///  each   1
+    $('#log').append ('0---------'+i +'<br>' );
+	
+    $.each(object1, function(ii, object2) {  ///  each  2
+			 $('#log').append ('---1------'+ii + '<br>' );
+								
+	     		    $.each(object2, function(iii, object3) {   ///  each  3
+     			       $('#log').append ('-------2--'+iii + '<br>' );
+		      				 if (iii=='info'){checkinfo(object3)};
+				      		 if (iii=='required'){checkrequired(object3)};
+				      		 if (iii=='regex' && ckItemValue !='' ){checkregex(object3)};
+				      		 if (iii=='cklength' && ckItemValue !='' ){checklength(object3)};
+
+      $('#log').append ('0---xx------'+ "fieldname=" + fieldname+'<br>' );						 
+						 
+//    						 	$.each(object3, function(property, value) {   ///  each  4
+//		    	        $('#log').append ('---------3--'+property + "=" + value+'<br>' );
+//                  })///  end  each   4		
+												 
+             })///  end  each   3
+    });   ///  end  each   2
+		  $('#log').append ('0---------end  each   2<br>' );
+		  $('#good').append (fieldname +': '+ ckItemValue+'<br>' );
+				 if (fielderrormessage){
+//	 alert('append  '+reqd[i] +'---'+fielderrormessage);
+	    ckItem .after('<span class="red">'+fielderrormessage+'</span>');
+	    $('#log') .before('<span class="red">'+fielderrormessage+'</span>');
+			fielderrormessage=  '';
+	 }
+});	 ///  end  each   1
+		  $('#log').append ('0---------end  each   1<br>' );
+};  //  end  function
+
+
+});	  // end ready function
+	////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+
+//-->
+</script>
+	
+	</head>
+<body >
+<div class=main>
+<form action="" id="theform" name="theform" method="post">
+    <p><label for="name">Name *</label><br /><input id="name" type="text" value="" name="name" /></p>
+    <p><label for="email">E-mail *</label><br /><input id="email" type="text" value="" name="email" /></p>
+    <p><label for="bdate">Birthday mm/dd/yyyy</label><br /><input id="bdate" type="text" value="" name="bdate" /></p>
+<!--    <p><label for="message">Message</label><br /><textarea id="message" rows="7" cols="30"  name="message"></textarea></p>
+-->
+    <p >* indicates a required field.</p>
+    <p><input class="submit" type="submit" name="submit" value="Submit Form" /></p>
+
+		<div id='good'></div>
+		<div id='llog'></div>
+</form>
+http://www.ferdychristant.com/blog//articles/DOMM-7LZJN7
+</div>
+</body>
+</html>
+
+	

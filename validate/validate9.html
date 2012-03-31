@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Validate Form</title>
+
+<!--
+ -->
+<link rel="stylesheet" type="text/css" href="validate.css" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+<script src="validate.js" type="text/javascript"></script>
+<!--
+<script src="ckbox.js" type="text/javascript"></script>
+ -->
+
+
+</head>
+
+<body>
+<div id="wrapper">
+	<div id="content">
+		<div id="content-left">
+		<span id="accessdenied" ></span>	
+		
+<form action="" id="theform" name="theform" method="post">
+    <p><label for="name">Name *</label><br /><input id="name" type="text" value="" name="name" /></p>
+    <p><label for="email">E-mail *</label><br /><input id="email" type="text" value="" name="email" /></p>
+    <p><label for="bdate">Birthday mm/dd/yyyy *</label><br /><input id="bdate" type="text" value="" name="bdate" /></p>
+    <p><label for="phone">Phone nnn-nnn-nnnn</label><br /><input id="phone" type="text" value="" name="phone" /></p>
+		
+<div class="checkboxes">
+    <label for="checkbox">Select Two Colors *</label><br>
+	 			<label for="checkbox"><input type="checkbox" class="checkbox1" name="colors"  value="Red"><span>&nbsp;Red</span></label>
+				<label for="checkbox"><input type="checkbox" class="checkbox1" name="colors"  value="Yellow" ><span>&nbsp;Yellow</span></label>
+				<label for="checkbox"><input type="checkbox" class="checkbox1" name="colors" value="Blue"><span>&nbsp;Blue</span></label>
+				<label for="checkbox"><input type="checkbox" class="checkbox1" name="colors" value="Green"><span>&nbsp;Green</span></label>
+  <span id="checkboxMsg"></span> 
+</div>	
+<br>
+
+<!--    <p><label for="message">Message</label><br /><textarea id="message" rows="7" cols="30"  name="message"></textarea></p>
+-->
+    <p >* indicates a required field.</p>
+    <p><button id=submit class="submit" type="submit" name="submit" >Submit Form</button></p>
+
+	</form>
+				
+		</div>
+		<div id="content-main">				
+				<hr align=""></hr>
+				You Entered:
+				<br>
+				<div id='youEntered' align="left"></div>
+				</br>
+				<button id="resetfields" align="left">Reset Fields</button>
+				<hr align=""></hr>
+
+				<div id='debuglog'>
+				<hr align=""></hr>
+				</div>	
+		</div>
+						
+		<div id="content-right">		
+		<p align="center" ><b>
+		Validate Form Example<br><br>
+		
+		Javascript, JQuery, JSON, CSS<br><br>
+		
+				<hr color="#008080" />
+		</b></p>
+		A basic, preliminary form validation routine using Javascript and JQuery.  
+		Of course, a more thorough validation of the submitted form would be done by the server-side script (not performed in this example). 
+		This small, light weight routine perfoms the following checks:
+		1) Required Fields.  Fields that are selected as required are checked to make sure a value is entered.
+		2) Field Length.  The entered fields's minimun and maximun length can be checked.  
+		It can also check that a checkbox has a minimun and/or maximun number of boxes checked.
+		3) Field Format.  Regular expressions are used to check the format of fields such as dates, emails, alphanumeric etc.
+		Other checks can easily be added.
+		<br><br>
+
+		In this example:
+		1) All fields are Required except the phone field, so they will be checked that a value is entered.  
+		Although the phone field is not required, it will be checked if a value is entered.
+		2) The value entered in the Name field must have a length of 4 to 30 characters. 
+		Length checks are not done on the Email, Birthday and Phone fields since the regular expresion check will be satisfactory.
+		3) Regular expersion checks are done on the Name, Email, Birthday and Phone fields. 
+		4) A length check is done on the Colors checkbox: Exactly two items must be checked.
+		<br><br>
+		It is easy to set up fields to be checked.  Just add the new field to a JSON array of fields to be checked.
+		Custom check routines can be added.   Here is the array for the Name field:
+		<br>
+		"name": [   
+     <br>  { 'info':{"fieldname" : 'Name', "fieldid" : 'name', "dataType" : 'words' , "errormessage" : ''}},
+    <br>   { 'required':{"required" : 'yes', "errormessage" : ': required field' }},
+    <br>   { 'regex':{"regex" : /^[a-zA-Z0-9 '.]*$/ , "errormessage" : ': format error' }},
+    <br>   {"cklength" :{"cklength" : '', "minlength" : 1, "maxlength" : 30, "errormessage" : ': length error' }}
+    <br>       ],    
+
+		
+	 <p align="center">
+
+		</p>
+		</div>
+		
+  </div>
+
+</div>
+		It is easy to set up fields to be checked.  Just add the new field to a JSON array of fields to be checked.
+		Custom check routines can be added.   Here is the array for the Name field:
+		<br>
+		"name": [   
+     <br>  { 'info':{"fieldname" : 'Name', "fieldid" : 'name', "dataType" : 'words' , "errormessage" : ''}},
+    <br>   { 'required':{"required" : 'yes', "errormessage" : ': required field' }},
+    <br>   { 'regex':{"regex" : /^[a-zA-Z0-9 '.]*$/ , "errormessage" : ': format error' }},
+    <br>   {"cklength" :{"cklength" : '', "minlength" : 1, "maxlength" : 30, "errormessage" : ': length error' }}
+    <br>       ],    
+
+
+</body>
+</html>

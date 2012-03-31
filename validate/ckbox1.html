@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  div { color:red; }
+  </style>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+  
+<form>
+  <p>
+    <input type="checkbox" name="newsletter" value="Hourly" />Hourly
+
+    <input type="checkbox" name="newsletter" value="Daily" />Daily
+    <input type="checkbox" name="newsletter" value="Weekly" />Weekly
+
+    <input type="checkbox" name="newsletter" value="Monthly" />Monthly
+    <input type="checkbox" name="newsletter" value="Yearly" />Yearly
+  </p>
+	<p><button id='ckval'>Checkboxes Value</button></p>
+	<p><button id='checkem' >Check Checkboxes</button></p>
+	<p><button id='uncheckem' >Un Check Checkboxes</button></p>
+	  <div id="log"></div>	 
+  <div id="log2"></div>	 
+</form>
+<div></div>
+
+<script>
+function countChecked() {
+  var n = $("input:checked").length;
+  $("div").text(n + (n <= 1 ? " is" : " are") + " checked!");
+}
+//countChecked();
+$(":checkbox").click(countChecked);
+</script>
+<script>
+
+		     jQuery.fn.getCheckboxVal = function(){
+//				 alert('getCheckboxVa');
+            var vals = [];
+            var i = 0;
+            this.each(function(){
+                vals[i++] = jQuery(this).val();
+            });  //  end   each
+         return vals;
+         } //  end   getCheckboxVal
+//         var checkeditems = $("input:checkbox:checked").getCheckboxVal();
+//				 ckItem = $('#'+fieldid);  					 
+//	       ckItemValue =  checkeditems; 		
+//				 alert('checkbox--'+checkeditems+'--'+'ckItem--'+ckItem+'--'+'fieldid--'+fieldid+'--'+'ckItemValue--'+checkeditems+'--'+'ckItemValue.length--'+checkeditems.length+'--');			
+//	  $("#log2").html( checkeditems );		 
+//     }  //  end   if(dataType=='checkbox'
+</script>
+
+<script>
+$("input").click(function() {
+  $("#log").html( $(":checked").val() + " is checked!" );
+	var checkeditems = $("input:checkbox:checked").getCheckboxVal();
+ $("#log2").text('getCheckboxVal   '+checkeditems);
+	
+	
+});
+</script>
+<script>
+var getckvals = function(){
+	  var checkeditems = $("input:checkbox:checked").getCheckboxVal();
+    $("#log2").text('getCheckboxVal   '+checkeditems);
+}
+//$("#ckval").click(alert ('ckval'));
+	$("#ckval").click(getckvals);
+    this.preventDefault();
+</script>
+
+
+</body>
+</html>

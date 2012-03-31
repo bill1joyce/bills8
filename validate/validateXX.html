@@ -1,0 +1,614 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>validate</title>
+    <style>
+#error {
+	color:red;
+	font-size:10px;
+	display:none;
+}
+.red {
+	color:red;
+}
+.needsfilled {
+	background:red;
+	color:white;
+}
+
+		</style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+$(document).ready(function(){
+	
+var function1 = function (){
+		alert ('function1');
+}	;
+		////////////////////////////////////////////////////////////////////////////////////
+var function2 = function (){
+		alert ('function2');
+}	;
+
+// If using an ID other than #email or #error then replace it here
+email = $("#email");
+errornotice = $("#error");
+		
+	// Place ID's of all required fields here.
+//required = ["name", "email", "message"];							 
+var reqd = ["name", "email"];
+										 						 
+ var vt = {
+                            "name": [  
+                                     { "fieldname" : 'Name',  "fieldid"    : 'name',  "dataType"    : 'words' ,  "errormessage" : ''},
+                                     { "required" : 'yes',   "errormessage" : ' field is required' },
+                                     { "regex"     : '/^[a-zA-Z0-9 ]*$/',   "errormessage" : ' field regex format error' },
+                                     { "flength"    : '',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : ' field length error' }
+                                      ],                              
+                            "email": [  
+                                     { "fieldname" : 'E-mail',  "fieldid"    : 'email',  "dataType"    : 'email' ,  "errormessage" : ''},
+                                     { "required" : 'yes',   "errormessage" : ' field is required' },
+                                     { "regex"     : '',   "errormessage" : ' field regex format error' },
+                                     { "flength"    : '',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : ' field length error' }
+                                      ]    				
+                               }; // End validateThese		
+ var vt2 = {
+                            "name": [  
+                                    { 'info':{ "fieldname" : 'Name',  "fieldid"    : 'name',  "dataType"    : 'words' ,  "errormessage" : ''}},
+                                     { 'required':{ "required" : 'yes',   "errormessage" : ' field is required' }},
+                                     { 'regex':{ "regex"     : '/^[a-zA-Z0-9 ]*$/',   "errormessage" : ' field regex format error' }},
+                                     {"flength" :{ "flength"    : '',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : ' field length error' }}
+                                      ],                              
+                            "email": [  
+                                     { 'info':{ "fieldname" : 'E-mail',  "fieldid"    : 'email',  "dataType"    : 'email' ,  "errormessage" : ''}},
+                                     { 'required':{ "required" : 'yes',   "errormessage" : ' field is required' }},
+                                     { 'regex':{ "regex"     : '',   "errormessage" : ' field regex format error' }},
+                                     {"flength" :{ "flength"    : '',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : ' field length error'} }
+                                      ]    				
+                               }; // End validateThese		
+// The text to show up within a field when it is incorrect
+emptyerror = "Please fill out this field.";
+emailerror = "Please enter a valid e-mail.";
+
+var checkitem = function () {
+for (var i = 0; i < reqd.length; i++) {
+	 var ckitem = $('#'+reqd[i]);  //  	 item.val();
+   var firstitem = vt[ reqd [i] ];
+	 var firstline = vt[ reqd [i] ][0];
+	 var fieldname = firstline.fieldname;
+	 var fieldid = firstline.fieldid
+	 var dataType = firstline.dataType;
+	 var fielderrormessage= firstline.errormessage;
+	 var secondline=vt[ reqd [i] ][1];
+	 
+	 if(secondline.required){
+	     if (!ckitem.val()){
+			      fielderrormessage+='<br>'+fieldname + secondline.errormessage;
+				alert(reqd[i] +'---'+fielderrormessage);
+						}
+	 }//  end  	 if(secondline.required){
+	 
+	 var thirdline=vt[ reqd [i] ][2];
+	 if(thirdline.regex){
+	     if (!ckitem.val()){
+			      fielderrormessage+='<br>'+fieldname + thirdline.errormessage;
+				alert(reqd[i] +'---'+fielderrormessage);
+						}
+	 }//  end  	 if(thirdline.regex){
+	 
+	 if (fielderrormessage){
+//	 alert('append  '+reqd[i] +'---'+fielderrormessage);
+	    ckitem .after('<span class="red">'+fielderrormessage+'</span>');
+	 }
+}	 // end for (var j = 0; j < reqd.length; j++) {
+	 
+}
+
+
+$("#theform").submit(function(event) {
+    event.preventDefault();
+//    checkitem();	 
+    checkeach2();	 
+});
+
+var checkinfo = function (checkobject) {	
+//				alert('checkinfo');
+			$.each(checkobject, function(property, value) {   ///  each  checkobject
+		       $('#log').append ('---------3--checkinfo--'+property + "=" + value+'<br>' );
+					 if (property=='fieldname'){fieldname=value};
+					 if (property=='fieldid'){fieldid=value};
+					 if (property=='dataType'){dataType=value};
+					 if (property=='fielderrormessage'){fielderrormessage=value};
+	       ckitem = $('#'+fieldid);  //  	 item.val(); 					 
+     })///  end  each   checkobject	
+//		 		  $('#log').append ('----ckinfo-----'+ "fieldname=" + fieldname+'<br>' );
+};  ///  end  function   checkobject	
+
+	 var checkrequired = function (checkobject) {	
+//				alert('checkrequired');
+			$.each(checkobject, function(property, value) {   ///  each  checkobject
+		       $('#log').append ('---------3--checkrequired--'+property + "=" + value+'<br>' );
+					 if (property=='required'){required=value};
+					 if (property=='errormessage'){errormessage=value};
+     })///  end  each   checkobject			 
+		 					 if (required !='' ){
+					     	     if (!ckitem.val()){
+			                   fielderrormessage+='<br>'+fieldname + errormessage;
+				                alert(fieldid +'---'+fielderrormessage);
+						         }					 
+					 };
+};
+
+	 var checkrequiredx = function () {	
+	 
+	     						 	$.each(object3, function(property, value) {   ///  each  4
+		    	        $('#log').append ('---------3--'+property + "=" + value+'<br>' );
+                  })///  end  each   4	
+	 
+	 if(secondline.required){
+	     if (!ckitem.val()){
+			      fielderrormessage+='<br>'+fieldname + secondline.errormessage;
+				alert(reqd[i] +'---'+fielderrormessage);
+						}
+	 }//  end  	 if(secondline.required){
+	 
+};
+	 var fieldname = '';
+	 var fieldid  = '';
+	 var dataType = '';
+	 var fielderrormessage=  '';
+	 var errormessage=  '';
+	 var ckitem ='';  //   	 ckitem.val();
+	 
+var checkeach2 = function () {	
+
+$.each(vt2, function(i, object1) {  ///  each   1
+
+//  $('#log').append ('0---------'+i + "=" + object1+'<br>' );
+  $('#log').append ('0---------'+i +'<br>' );
+	
+   $.each(object1, function(ii, object2) {  ///  each  2
+//			 $('#log').append ('---1------'+ii + "=" + object2+'<br>' );
+			 $('#log').append ('---1------'+ii + '<br>' );
+								
+	     		    $.each(object2, function(iii, object3) {   ///  each  3
+//			       $('#log').append ('-------2--'+iii + "=" + object3+'<br>' );
+      			       $('#log').append ('-------2--'+iii + '<br>' );
+		      				 if (iii=='info'){checkinfo(object3)};
+				      		 if (iii=='required'){checkrequired(object3)};
+
+      $('#log').append ('0---xx------'+ "fieldname=" + fieldname+'<br>' );						 
+						 
+//    						 	$.each(object3, function(property, value) {   ///  each  4
+//		    	        $('#log').append ('---------3--'+property + "=" + value+'<br>' );
+//                  })///  end  each   4		
+												 
+             })///  end  each   3
+    });   ///  end  each   2
+		  $('#log').append ('0---------end  each   2<br>' );
+				 if (fielderrormessage){
+//	 alert('append  '+reqd[i] +'---'+fielderrormessage);
+	    ckitem .after('<span class="red">'+fielderrormessage+'</span>');
+			fielderrormessage=  '';
+	 }
+});	 ///  end  each   1
+		  $('#log').append ('0---------end  each   1<br>' );
+};  //  end  function
+
+	 var checkeach = function () {	 
+//$.each(json.forum, function(i, object) {
+$.each(vt, function(i, object1) {  ///  each   1
+  $('#log').append ('0---------'+i + "=" + object1+'<br>' );
+	
+   $.each(object1, function(ii, object2) {  ///  each  2
+			 $('#log').append ('---1------'+ii + "=" + object2+'<br>' );
+								
+	     		    $.each(object2, function(property, value) {   ///  each  3
+			       $('#log').append ('-------2--'+property + "=" + value+'<br>' );
+             })///  end  each   3
+
+    });   ///  end  each   2
+});	 ///  end  each   1
+};
+	 
+var afunction = function () {
+	 var checkthis = vt[ reqd [0] ][0];
+	     for (property in checkthis) {
+        var value = checkthis[property];
+			 $('#log').append (property + "=" + value+'<br>' );
+			 var property = value;
+    }
+}
+var afunction = function () {
+	 var checkthis = vt[ reqd [0] ][0];
+	     for (property in checkthis) {
+        var value = checkthis[property];
+			 $('#log').append (property + "=" + value+'<br>' );
+			 var property = value;
+    }
+}
+
+
+var checkitems = function () {
+for (var j = 0; j < reqd.length; j++) {
+var checkitem = vt[ reqd [j] ];
+			 $('#log').append ('<br>reqd --'+j+'-- '+reqd [j] +'<br>' );
+
+for (var i = 0; i < checkitem.length; i++) {;
+    var checkthis = checkitem[i];
+//		alert('forum[i].length -- '+object.length);
+
+    for (property in checkthis) {
+        var value = checkthis[property];
+			 $('#log').append (property + "=" + value+'<br>' );
+    }
+}
+}
+};  //  end checkitems
+
+//checkitems();
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+
+$("#theform2").submit(function(event) {
+  event.preventDefault();
+console.log('the form '+vt.length);
+		for (i=0, numreq=reqd.length;i<numreq;i++) {
+				var item = $('#'+reqd[i]);
+				console.log (i + ': ' + reqd[i] +': ' + item.get(0).tagName + ' --'+ item.val());
+				$('#log').append (i + ': ' + reqd[i] +': ' + item.get(0).tagName + ' --'+ item.val());
+	  }
+		for (i=0, numreq=reqd.length;i<numreq;i++) {
+				var itemname = reqd[i];
+//				var itemname = reqd[i];
+				var item = $('#'+itemname );
+				console.log (i + ': ' + itemname +': ' + item.get(0).tagName + ' --'+ item.val());
+				$('#log').append (i + ': ' + itemname +': ' + item.get(0).tagName + ' --'+ item.val());
+	  }		
+		return false;
+});
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+$("#theform1").submit(function(){
+alert ('the form '+required.length);
+	//Validate required fields
+	for (i=0;i<required.length;i++) {
+		var input = $('#'+required[i]);
+		if ((input.val() == "") || (input.val() == emptyerror)) {
+			input.addClass("needsfilled");
+			input.val(emptyerror);
+			errornotice.fadeIn(750);
+		} else {
+			input.removeClass("needsfilled");
+		}
+	}
+///////////////////////////////////////////////////////////////////////////////////////		
+var myDate = new Date(2008, 9, 16);
+
+// is myDate between Sept 1 and Sept 30?
+
+var startDate = new Date(2008, 9, 1);
+var endDate = new Date(2008, 9, 30);
+
+if (startDate < myDate && myDate < endDate) {
+        alert('yes');
+        // myDate is between startDate and endDate
+}
+
+
+function checkPhoneNumber(phoneNo) { var phoneRE = /^\(\d\d\d\) \d\d\d-\d\d\d\d$/;
+ if (phoneNo.match(phoneRE)) {
+  return true; 
+	} else {
+	 alert( "The phone number entered is invalid!" )
+ ; return false; } }
+ 
+// var phoneRE = /^\(\d{3}\) \d{3}-\d{4}$/;
+// phoneNo.match(phoneRE);
+ 
+ //words
+// / ^([a-zA-Z0-9 _-]+)$/
+// This regex allows spaces in side a string and restrict special characters.It Only allows a-z, A-Z, 0-9, Space, Underscore and dash
+
+//^\s*([0-9a-zA-Z]*)\s*$
+
+//or, if you want a minimum of one character:
+
+//^\s*([0-9a-zA-Z]+)\s*$
+//Square brackets indicate a set of characters. ^ is start of input. $ is end of input (or newline, depending on your options). \s is whitespace.
+//The whitespace before and after is optional.
+//The parentheses are the grouping operator to allow you to extract the information you want.
+
+///////////////////////////////////////////////////////////////////////////////////////
+    // regular expression to match required date format
+    re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;  // dd/mm/yyyy
+
+
+// Validate the e-mail.
+if (!/^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {
+    email.addClass("needsfilled");
+    email.val(emailerror);
+}
+//////////////////////////////////////////////////////////////////////////////////////
+	//if any inputs on the page have the class 'needsfilled' the form will not submit
+	if ($(":input").hasClass("needsfilled")) {
+		return false;
+	} else {
+		errornotice.hide();
+		return true;
+	}
+});
+//////////////////////////////////////////////////////////////////////////////////////
+// Clears any fields in the form when the user clicks on them
+$(":input").focus(function(){
+   if ($(this).hasClass("needsfilled") ) {
+		$(this).val("");
+		$(this).removeClass("needsfilled");
+   }
+});
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+
+});
+  </script>
+	
+	</head>
+<body >
+<form action="" id="theform" name="theform" method="post">
+    <p><label for="name">Name *</label><br /><input id="name" type="text" value="" name="name" /></p>
+    <p><label for="email">E-mail *</label><br /><input id="email" type="text" value="" name="email" /></p>
+    <p><label for="bdate">Birth Date</label><br /><input id="bdate" type="text" value="" name="bdate" /></p>
+<!--    <p><label for="message">Message</label><br /><textarea id="message" rows="7" cols="30"  name="message"></textarea></p>
+-->
+    <p >* indicates a required field.</p>
+    <p><input class="submit" type="submit" name="submit" value="Submit Form" /></p>
+
+    <p id="error">There were errors on the form, please make sure all fields are fill out correctly.</p>
+		<div id='log'></div>
+</form>
+http://www.ferdychristant.com/blog//articles/DOMM-7LZJN7
+</body>
+</html>
+
+	
+	
+	
+var function1 = function (){
+		alert ('function1');
+}	;
+		////////////////////////////////////////////////////////////////////////////////////
+var function2 = function (){
+		alert ('function2');
+}	;
+
+// If using an ID other than #email or #error then replace it here
+email = $("#email");
+errornotice = $("#error");
+		
+	// Place ID's of all required fields here.
+//required = ["name", "email", "message"];							 
+var reqd = ["name", "email"];
+										 						 
+ var vt = {
+                            "name": [  
+                                     { "fieldname" : 'Name',  "fieldid"    : 'name',  "dataType"    : 'words' ,  "errormessage" : ''},
+                                     { "required" : 'yes',   "errormessage" : ' field is required' },
+                                     { "regex"     : '/^[a-zA-Z0-9 ]*$/',   "errormessage" : ' field regex format error' },
+                                     { "flength"    : '',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : ' field length error' }
+                                      ],                              
+                            "email": [  
+                                     { "fieldname" : 'E-mail',  "fieldid"    : 'email',  "dataType"    : 'email' ,  "errormessage" : ''},
+                                     { "required" : 'yes',   "errormessage" : ' field is required' },
+                                     { "regex"     : '',   "errormessage" : ' field regex format error' },
+                                     { "flength"    : '',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : ' field length error' }
+                                      ]    				
+                               }; // End validateThese		
+	 var checkrequiredx = function () {	
+	 
+	     						 	$.each(object3, function(property, value) {   ///  each  4
+		    	        $('#log').append ('---------3--'+property + "=" + value+'<br>' );
+                  })///  end  each   4	
+			}						
+	 
+	 if(secondline.required){
+	     if (!ckitem.val()){
+			      fielderrormessage+='<br>'+fieldname + secondline.errormessage;
+				alert(reqd[i] +'---'+fielderrormessage);
+						}
+	 }//  end  	 if(secondline.required){
+	 
+	
+	var checkitem = function () {
+for (var i = 0; i < reqd.length; i++) {
+	 var ckitem = $('#'+reqd[i]);  //  	 item.val();
+   var firstitem = vt[ reqd [i] ];
+	 var firstline = vt[ reqd [i] ][0];
+	 var fieldname = firstline.fieldname;
+	 var fieldid = firstline.fieldid
+	 var dataType = firstline.dataType;
+	 var fielderrormessage= firstline.errormessage;
+	 var secondline=vt[ reqd [i] ][1];
+	 
+	 if(secondline.required){
+	     if (!ckitem.val()){
+			      fielderrormessage+='<br>'+fieldname + secondline.errormessage;
+				alert(reqd[i] +'---'+fielderrormessage);
+						}
+	 }//  end  	 if(secondline.required){
+	 
+	 var thirdline=vt[ reqd [i] ][2];
+	 if(thirdline.regex){
+	     if (!ckitem.val()){
+			      fielderrormessage+='<br>'+fieldname + thirdline.errormessage;
+				alert(reqd[i] +'---'+fielderrormessage);
+						}
+	 }//  end  	 if(thirdline.regex){
+	 
+	 if (fielderrormessage){
+//	 alert('append  '+reqd[i] +'---'+fielderrormessage);
+	    ckitem .after('<span class="red">'+fielderrormessage+'</span>');
+	 }
+}	 // end for (var j = 0; j < reqd.length; j++) {
+	 
+}
+
+
+	
+	 var checkeach = function () {	 
+//$.each(json.forum, function(i, object) {
+$.each(vt, function(i, object1) {  ///  each   1
+  $('#log').append ('0---------'+i + "=" + object1+'<br>' );
+	
+   $.each(object1, function(ii, object2) {  ///  each  2
+			 $('#log').append ('---1------'+ii + "=" + object2+'<br>' );
+								
+	     		    $.each(object2, function(property, value) {   ///  each  3
+			       $('#log').append ('-------2--'+property + "=" + value+'<br>' );
+             })///  end  each   3
+
+    });   ///  end  each   2
+});	 ///  end  each   1
+};
+	 
+var afunction = function () {
+	 var checkthis = vt[ reqd [0] ][0];
+	     for (property in checkthis) {
+        var value = checkthis[property];
+			 $('#log').append (property + "=" + value+'<br>' );
+			 var property = value;
+    }
+}
+var afunction = function () {
+	 var checkthis = vt[ reqd [0] ][0];
+	     for (property in checkthis) {
+        var value = checkthis[property];
+			 $('#log').append (property + "=" + value+'<br>' );
+			 var property = value;
+    }
+}
+
+
+var checkitems = function () {
+for (var j = 0; j < reqd.length; j++) {
+var checkitem = vt[ reqd [j] ];
+			 $('#log').append ('<br>reqd --'+j+'-- '+reqd [j] +'<br>' );
+
+for (var i = 0; i < checkitem.length; i++) {;
+    var checkthis = checkitem[i];
+//		alert('forum[i].length -- '+object.length);
+
+    for (property in checkthis) {
+        var value = checkthis[property];
+			 $('#log').append (property + "=" + value+'<br>' );
+    }
+}
+}
+};  //  end checkitems
+
+//checkitems();
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+
+$("#theform2").submit(function(event) {
+  event.preventDefault();
+console.log('the form '+vt.length);
+		for (i=0, numreq=reqd.length;i<numreq;i++) {
+				var item = $('#'+reqd[i]);
+				console.log (i + ': ' + reqd[i] +': ' + item.get(0).tagName + ' --'+ item.val());
+				$('#log').append (i + ': ' + reqd[i] +': ' + item.get(0).tagName + ' --'+ item.val());
+	  }
+		for (i=0, numreq=reqd.length;i<numreq;i++) {
+				var itemname = reqd[i];
+//				var itemname = reqd[i];
+				var item = $('#'+itemname );
+				console.log (i + ': ' + itemname +': ' + item.get(0).tagName + ' --'+ item.val());
+				$('#log').append (i + ': ' + itemname +': ' + item.get(0).tagName + ' --'+ item.val());
+	  }		
+		return false;
+});
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+$("#theform1").submit(function(){
+alert ('the form '+required.length);
+	//Validate required fields
+	for (i=0;i<required.length;i++) {
+		var input = $('#'+required[i]);
+		if ((input.val() == "") || (input.val() == emptyerror)) {
+			input.addClass("needsfilled");
+			input.val(emptyerror);
+			errornotice.fadeIn(750);
+		} else {
+			input.removeClass("needsfilled");
+		}
+	}
+///////////////////////////////////////////////////////////////////////////////////////		
+var myDate = new Date(2008, 9, 16);
+
+// is myDate between Sept 1 and Sept 30?
+
+var startDate = new Date(2008, 9, 1);
+var endDate = new Date(2008, 9, 30);
+
+if (startDate < myDate && myDate < endDate) {
+        alert('yes');
+        // myDate is between startDate and endDate
+}
+
+
+function checkPhoneNumber(phoneNo) { var phoneRE = /^\(\d\d\d\) \d\d\d-\d\d\d\d$/;
+ if (phoneNo.match(phoneRE)) {
+  return true; 
+	} else {
+	 alert( "The phone number entered is invalid!" )
+ ; return false; } }
+ 
+// var phoneRE = /^\(\d{3}\) \d{3}-\d{4}$/;
+// phoneNo.match(phoneRE);
+ 
+ //words
+// / ^([a-zA-Z0-9 _-]+)$/
+// This regex allows spaces in side a string and restrict special characters.It Only allows a-z, A-Z, 0-9, Space, Underscore and dash
+
+//^\s*([0-9a-zA-Z]*)\s*$
+
+//or, if you want a minimum of one character:
+
+//^\s*([0-9a-zA-Z]+)\s*$
+//Square brackets indicate a set of characters. ^ is start of input. $ is end of input (or newline, depending on your options). \s is whitespace.
+//The whitespace before and after is optional.
+//The parentheses are the grouping operator to allow you to extract the information you want.
+
+///////////////////////////////////////////////////////////////////////////////////////
+    // regular expression to match required date format
+    re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;  // dd/mm/yyyy
+
+
+// Validate the e-mail.
+if (!/^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {
+    email.addClass("needsfilled");
+    email.val(emailerror);
+}
+//////////////////////////////////////////////////////////////////////////////////////
+	//if any inputs on the page have the class 'needsfilled' the form will not submit
+	if ($(":input").hasClass("needsfilled")) {
+		return false;
+	} else {
+		errornotice.hide();
+		return true;
+	}
+});
+//////////////////////////////////////////////////////////////////////////////////////
+// Clears any fields in the form when the user clicks on them
+$(":input").focus(function(){
+   if ($(this).hasClass("needsfilled") ) {
+		$(this).val("");
+		$(this).removeClass("needsfilled");
+   }
+});	

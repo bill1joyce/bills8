@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="EN" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/xml; charset=utf-8" />
+  <style type = "text/css">
+    dt {
+      font-weight: bold;
+      float: left;
+      width: 5em;
+      margin-left: 1em;
+      clear: left;
+    }
+  </style>    
+  <script type = "text/javascript"
+          src = "jquery-1.4.2.min.js"></script>
+ 
+  <script type = "text/javascript">    
+    //<![CDATA[
+
+    $(init);
+    
+    function init(){
+      $.getJSON("pets.json", processResult);
+    } // end init
+    
+    function processResult(data){
+      $("#output").text("");
+      for(petName in data){
+        var pet = data[petName];
+        $("#output").append("<h2>" + petName + "<h2>");
+        $("#output").append("<dl>");
+        for (detail in pet){
+          $("#output").append("  <dt>" + detail + "<\/dt>");
+          $("#output").append("  <dd>" + pet[detail] + "<\/dd>");
+        } // end for
+        $("#output").append("<\/dl>");
+        
+      } // end for
+    } // end processResults
+    
+    //]]>
+    </script>
+  
+  <title>readJSON.html</title>
+</head>
+<body>
+<h1>Reading JSON</h1>
+
+<div id = "output">
+ This is the default output
+</div>
+
+</body>
+</html>

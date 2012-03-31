@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>validate</title>
+    <style>
+		#error {
+	color:red;
+	font-size:10px;
+	display:none;
+}
+.needsfilled {
+	background:red;
+	color:white;
+}
+
+		</style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+var myJSONObject2 = {"bindings": [           {"ircEvent": "PRIVMSG", "method": "randomURI", "regex": "^random.*"}    ],
+																 				"bindings2": [           {"ircEvent": "2PRIVMSG", "method": "randomURI", "regex": "^random.*"}    ]
+};
+
+console.log('myJSONObject2.bindings[0].ircEvent===' + myJSONObject2.bindings[0].ircEvent);
+console.log('myJSONObject2.bindings2[0].ircEvent===' + myJSONObject2.bindings2[0].ircEvent);
+
+var students1 = {
+   "First" : [ 
+  { "Name"  : "Amit",  // First element
+  "Marks" : 67,
+  "age" : 23 }
+ ] ,
+    "Second" : [ 
+  {
+   "Name"   : "1Sandeep",  // Second element
+  "Marks" : 165,
+  "age" : 121 }
+ ] 
+ } 
+
+var students = {
+   "Maths" : [ 
+  { 
+	"Name"  : "Amit",  // First element
+  "Marks" : 67,
+  "age" : 23 
+	}
+ ] ,
+  "Maths" : [ 
+  {  
+	 "Name"   : "1Sandeep",  // Second element
+  "Marks" : 165,
+  "age" : 121 
+	}
+ ] 
+ } 
+ var students2 = {
+   "Maths" : 
+	 [
+  { 	"Name"  : "Amit",  "Marks" : 67,  "age" : 23 	},
+  {   "Name"   : "1Sandeep",    "Marks" : 165,  "age" : 121 	}
+   ]
+ } ;
+var mycars = new Array();
+mycars[0] = "Saab";
+mycars[1] = "Volvo";
+mycars[2] = "BMW";
+
+var myJSONObject1 = {"bindings": [
+        {"ircEvent": "PRIVMSG", "method": "newURI", "regex": "^http://.*"},
+        {"ircEvent": "PRIVMSG", "method": "deleteURI", "regex": "^delete.*"},
+        {"ircEvent": "PRIVMSG", "method": "randomURI", "regex": "^random.*"}
+    ]
+};										
+
+$(document).ready(function(){
+	
+	
+var function1 = function (){
+		alert ('function1');
+}	;
+		////////////////////////////////////////////////////////////////////////////////////
+var function2 = function (){
+		alert ('function2');
+}	;
+		
+	// Place ID's of all required fields here.
+//required = ["name", "email", "message"];
+							 
+// If using an ID other than #email or #error then replace it here
+email = $("#email");
+errornotice = $("#error");
+
+var required = ["name",
+				 	 				  "email",
+										 "bdate"
+										 ];
+										 						 
+//var validateThese = {
+ var vt = {
+                            "name": [  
+                                     { "fieldname" : 'name',  "dataType"    : 'words' },
+                                     { "required" : 'yes',   "errormessage" : 'Name field is required' },
+                                     { "regex"     : 'function1',   "errormessage" : 'Name field regex format error' },
+                                     { "length"    : 'yes',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : 'Name field length error' }
+                                      ],                                 
+                            "email": [  
+                                     { "fieldname" : 'email',  "dataType"    : 'words' },
+                                      { "required" : 'yes',   "errormessage" : 'required field: Email' },
+                                     { "regex"     : 'function1',   "errormessage" : 'email regex error' },
+                                     { "length"    : 'yes',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : 'email length error' }
+                                      ],    
+                            'bdate' : [  
+                                     { "fieldname" : 'bdate',  "dataType"    : 'words' },
+                                     { "required" : 'yes',   "errormessage" : 'required field: Birth Date' },
+                                     { "regex"     : 'function1',   "errormessage" : 'date regex error' },
+                                     { "length"    : 'yes',   "minlength" : 0,   "maxlength" : 6,   "errormessage" : 'date length error' }
+                                     ] 								
+                               }; // End validateThese		
+// The text to show up within a field when it is incorrect
+emptyerror = "Please fill out this field.";
+emailerror = "Please enter a valid e-mail.";
+
+
+var json = {"forum":[
+{
+"id":"1", "theme_id":"1"
+},
+{
+"id":"2","updated":"2010-03-19 ","theme_id":"2"
+}
+]};
+
+for (var j = 0; j < required.length; j++) {
+var checkitem = vt[ required [j] ];
+//       alert('required --'+j+'-- '+required [j] );
+			 $('#log').append ('<br>required --'+j+'-- '+required [j] +'<br>' );
+
+for (var i = 0; i < checkitem.length; i++) {
+ //      alert('checkitem.length -- '+checkitem.length);
+    var object = checkitem[i];
+//		alert('forum[i].length -- '+object.length);
+    for (property in object) {
+        var value = object[property];
+//       alert(property + "=" + value); 
+			 $('#log').append (property + "=" + value+'<br>' );
+    }
+}
+}
+
+var forum = json.forum;
+
+for (var i = 0; i < forum.length; i++) {
+       alert('forum.length -- '+forum.length);
+    var object = forum[i];
+//		alert('forum[i].length -- '+object.length);
+    for (property in object) {
+        var value = object[property];
+//       alert(property + "=" + value); // This alerts "id=1", "created=2010-03-19", etc..
+			 $('#log').append (property + "=" + value+'<br>' );
+    }
+}
+
+$.each(json.forum, function(i, object) {
+    $.each(object, function(property, value) {
+ //       alert(property + "=" + value);
+    });
+});
+	////////////////////////////////////////////////////////////////////////////////////
+
+$("#theform").submit(function(){
+console.log('the form '+validateThese.length);
+		for (i=0, numreq=required.length;i<numreq;i++) {
+				var item = $('#'+required[i]);
+				console.log (i + ': ' + required[i] +': ' + item.get(0).tagName + ' --'+ item.val());
+				$('#log').append (i + ': ' + required[i] +': ' + item.get(0).tagName + ' --'+ item.val());
+	  }
+		for (i=0, numreq=required.length;i<numreq;i++) {
+				var itemname = required[i];
+//				var itemname = required[i];
+				var item = $('#'+itemname );
+				console.log (i + ': ' + itemname +': ' + item.get(0).tagName + ' --'+ item.val());
+				$('#log').append (i + ': ' + itemname +': ' + item.get(0).tagName + ' --'+ item.val());
+	  }		
+
+
+		return false;
+});
+
+	
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+$("#theform1").submit(function(){
+alert ('the form '+required.length);
+	//Validate required fields
+	for (i=0;i<required.length;i++) {
+		var input = $('#'+required[i]);
+		if ((input.val() == "") || (input.val() == emptyerror)) {
+			input.addClass("needsfilled");
+			input.val(emptyerror);
+			errornotice.fadeIn(750);
+		} else {
+			input.removeClass("needsfilled");
+		}
+	}
+///////////////////////////////////////////////////////////////////////////////////////		
+///////////////////////////////////////////////////////////////////////////////////////
+// Validate the e-mail.
+if (!/^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email.val())) {
+    email.addClass("needsfilled");
+    email.val(emailerror);
+}
+//////////////////////////////////////////////////////////////////////////////////////
+	//if any inputs on the page have the class 'needsfilled' the form will not submit
+	if ($(":input").hasClass("needsfilled")) {
+		return false;
+	} else {
+		errornotice.hide();
+		return true;
+	}
+});
+//////////////////////////////////////////////////////////////////////////////////////
+// Clears any fields in the form when the user clicks on them
+$(":input").focus(function(){
+   if ($(this).hasClass("needsfilled") ) {
+		$(this).val("");
+		$(this).removeClass("needsfilled");
+   }
+});
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+
+});
+  </script>
+	
+	</head>
+<body >
+<form action="" id="theform" name="theform" method="post">
+    <p><label for="name">Name *</label><br /><input id="name" type="text" value="" name="name" /></p>
+    <p><label for="email">E-mail *</label><br /><input id="email" type="text" value="" name="email" /></p>
+    <p><label for="bdate">Birth Date</label><br /><input id="bdate" type="text" value="" name="bdate" /></p>
+    <p><label for="message">Message</label><br /><textarea id="message" rows="7" cols="30"  name="message"></textarea></p>
+    <p >* indicates a required field.</p>
+    <p><input class="submit" type="submit" name="submit" value="Submit Form" /></p>
+
+    <p id="error">There were errors on the form, please make sure all fields are fill out correctly.</p>
+		<div id='log'></div>
+</form>
+http://www.ferdychristant.com/blog//articles/DOMM-7LZJN7
+</body>
+</html>
+
+	
